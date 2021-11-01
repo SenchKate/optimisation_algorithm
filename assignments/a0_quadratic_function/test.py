@@ -28,12 +28,12 @@ class testProblem(unittest.TestCase):
         self.assertAlmostEqual(value,8)
 
 
-    def jacobian(self):
+    def testJacobian(self):
         """
         """
         C = np.ones((2,2))
         problem = self.problem(C)
-        flag , _ , _= check_mathematical_program(problem.evaluate, np.array([-1,.5, .1])  , 1e-5)
+        flag , _ , _= check_mathematical_program(problem.evaluate, np.array([-1,.5])  , 1e-5)
         self.assertTrue(flag)
 
 
