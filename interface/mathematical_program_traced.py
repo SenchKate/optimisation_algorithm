@@ -42,7 +42,7 @@ class MathematicalProgramTraced(MathematicalProgram):
         This should be called at the end of an evaluate implementation. It adds
         the evaluated x, features and objectives to the traces
         """
-        self.trace_x.append(x)
+        self.trace_x.append(x.copy())
         self.trace_J.append(J)
         self.trace_phi.append(phi)
         
