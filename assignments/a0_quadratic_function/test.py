@@ -53,8 +53,20 @@ class testProblem(unittest.TestCase):
         self.assertTrue(flag)
 
 
+# usage:
+# print results in terminal
+# python3 test.py
+# store results in file 
+# python3 test.py out.log
+
 if __name__ == "__main__":
-   unittest.main()
+    if len(sys.argv) == 2 :
+        log_file = sys.argv.pop()
+        with open(log_file, "w") as f:
+           runner = unittest.TextTestRunner(f, verbosity=2)
+           unittest.main(testRunner=runner)
+    else:
+        unittest.main()
 
 
 
