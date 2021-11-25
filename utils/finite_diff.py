@@ -43,7 +43,7 @@ def finite_diff_hess(f,x,eps):
 
 
 
-def check_mathematical_program( fun, x, eps):
+def check_mathematical_program( fun, x, eps, verbose=False):
     """
     Input:
     fun: ( np.array 1d , np.array 2d ) = fun( np.array 1d)
@@ -64,6 +64,10 @@ def check_mathematical_program( fun, x, eps):
         ei = np.zeros(n)
         ei[i] = eps 
         J_num[:,i] = (fun( x +  ei)[0] - fun( x - ei)[0]) / ( 2 * eps)
+    if verbose:
+        print( "J\n{}".format( J) ) 
+        print( "J_num\n{}".format( J_num) ) 
+        print( "J - J_num \n{}".format( J - J_num) ) 
     return np.allclose( J , J_num , atol=10*eps) , J , J_num
 
 

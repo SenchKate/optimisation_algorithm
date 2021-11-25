@@ -1,7 +1,5 @@
 import numpy as np
 import sys
-# sys.path.append("..")
-
 
 from ..interface.mathematical_program import  MathematicalProgram
 

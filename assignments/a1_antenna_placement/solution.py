@@ -1,17 +1,25 @@
 import numpy as np
+import math
 import sys
+
 sys.path.append("..")
-
 from optimization_algorithms.interface.mathematical_program import  MathematicalProgram
+from optimization_algorithms.interface.objective_type import OT
 
 
-class Problem0( MathematicalProgram ):
+
+
+class AntennaPlacement( MathematicalProgram ):
     """
     """
 
-    def __init__(self,C):
-        pass
-
+    def __init__(self,P, w):
+        """
+        Arguments
+        ----
+        P: list of 1-D np.arrays
+        w: 1-D np.array
+        """
         # in case you want to initialize some class members or so...
 
 
@@ -21,13 +29,12 @@ class Problem0( MathematicalProgram ):
         ----
         MathematicalProgram.evaluate
         """
-
+        
         # add the main code here! E.g. define methods to compute value y and Jacobian J
         # y = ...
         # J = ...
 
-        # and return as a tuple of arrays, namely of dim (1) and (1,n)
-        #return  np.array( [ y ] ) ,  J.reshape(1,-1)
+        # return y , J
 
     def getDimension(self) : 
         """
@@ -35,8 +42,8 @@ class Problem0( MathematicalProgram ):
         ------
         MathematicalProgram.getDimension
         """
-        # return the input dimensionality of the problem, e.g.
-        return 2
+        # return the input dimensionality of the problem (size of x)
+        # return ...
 
     def getFHessian(self, x) : 
         """
@@ -45,11 +52,8 @@ class Problem0( MathematicalProgram ):
         MathematicalProgram.getFHessian
         """
         # add code to compute the Hessian matrix
-
         # H = ...
-
-        # and return it
-        #return H
+        # return H
 
     def getInitializationSample(self) : 
         """
@@ -57,12 +61,14 @@ class Problem0( MathematicalProgram ):
         ------
         MathematicalProgram.getInitializationSample
         """
-        return np.ones(self.getDimension())
+        # x0 = ...
+        # return x0
 
-    def report(self , verbose ): 
+    def getFeatureTypes(self) :
         """
-        See Also
-        ------
-        MathematicalProgram.report
+        returns
+        -----
+        output: list of feature Types
+
         """
-        return "Quadratic function x C^T C x "
+        return [OT.f]

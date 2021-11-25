@@ -1,17 +1,22 @@
 import numpy as np
 import sys
 sys.path.append("..")
-
 from optimization_algorithms.interface.mathematical_program import  MathematicalProgram
+from optimization_algorithms.interface.objective_type import  OT
+import math
 
-
-class Problem0( MathematicalProgram ):
+class RobotTool( MathematicalProgram ):
     """
     """
 
-    def __init__(self,C):
-        pass
-
+    def __init__(self,q0, pr, l):
+        """
+        Arguments
+        ----
+        q0: 1-D np.array
+        pr: 1-D np.array
+        l: float
+        """
         # in case you want to initialize some class members or so...
 
 
@@ -26,8 +31,12 @@ class Problem0( MathematicalProgram ):
         # y = ...
         # J = ...
 
-        # and return as a tuple of arrays, namely of dim (1) and (1,n)
-        #return  np.array( [ y ] ) ,  J.reshape(1,-1)
+        # y is a 1-D np.array of dimension m
+        # J is a 2-D np.array of dimensions (m,n)
+        # where m is the number of features and n is dimension of x
+        # return  y  , J 
+
+        
 
     def getDimension(self) : 
         """
@@ -35,21 +44,9 @@ class Problem0( MathematicalProgram ):
         ------
         MathematicalProgram.getDimension
         """
-        # return the input dimensionality of the problem, e.g.
-        return 2
+        # return the input dimensionality of the problem (size of x)
+        # return 
 
-    def getFHessian(self, x) : 
-        """
-        See Also
-        ------
-        MathematicalProgram.getFHessian
-        """
-        # add code to compute the Hessian matrix
-
-        # H = ...
-
-        # and return it
-        #return H
 
     def getInitializationSample(self) : 
         """
@@ -57,12 +54,15 @@ class Problem0( MathematicalProgram ):
         ------
         MathematicalProgram.getInitializationSample
         """
-        return np.ones(self.getDimension())
+        # return ...
 
-    def report(self , verbose ): 
+    def getFeatureTypes(self):
         """
+        returns
+        -----
+        output: list of feature Types
         See Also
         ------
-        MathematicalProgram.report
+        MathematicalProgram.getFeatureTypes
         """
-        return "Quadratic function x C^T C x "
+        return [ OT.sos ] * 5
