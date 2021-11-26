@@ -1,15 +1,17 @@
-import numpy as np
 import sys
-sys.path.append("..")
-from optimization_algorithms.interface.mathematical_program import  MathematicalProgram
-from optimization_algorithms.interface.objective_type import  OT
 import math
+import numpy as np
 
-class RobotTool( MathematicalProgram ):
+sys.path.append("..")
+from optimization_algorithms.interface.mathematical_program import MathematicalProgram
+from optimization_algorithms.interface.objective_type import OT
+
+
+class RobotTool(MathematicalProgram):
     """
     """
 
-    def __init__(self,q0, pr, l):
+    def __init__(self, q0, pr, l):
         """
         Arguments
         ----
@@ -19,8 +21,7 @@ class RobotTool( MathematicalProgram ):
         """
         # in case you want to initialize some class members or so...
 
-
-    def evaluate(self, x) :
+    def evaluate(self, x):
         """
         See also:
         ----
@@ -34,21 +35,18 @@ class RobotTool( MathematicalProgram ):
         # y is a 1-D np.array of dimension m
         # J is a 2-D np.array of dimensions (m,n)
         # where m is the number of features and n is dimension of x
-        # return  y  , J 
+        # return  y  , J
 
-        
-
-    def getDimension(self) : 
+    def getDimension(self):
         """
         See Also
         ------
         MathematicalProgram.getDimension
         """
         # return the input dimensionality of the problem (size of x)
-        # return 
+        # return
 
-
-    def getInitializationSample(self) : 
+    def getInitializationSample(self):
         """
         See Also
         ------
@@ -65,4 +63,4 @@ class RobotTool( MathematicalProgram ):
         ------
         MathematicalProgram.getFeatureTypes
         """
-        return [ OT.sos ] * 5
+        return [OT.sos] * 5

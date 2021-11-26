@@ -1,49 +1,47 @@
-import unittest
-import math
-import sys
 import numpy as np
-
+import unittest
+import sys
+import math
 sys.path.append("..")
+
 from optimization_algorithms.utils.finite_diff import *
 from optimization_algorithms.interface.mathematical_program import MathematicalProgram
-from optimization_algorithms.interface.objective_type import OT
-
-from solution import AntennaPlacement
+from optimization_algorithms.mathematical_programs.constrained0 import Constrained0
 
 
-class testProblem(unittest.TestCase):
+class testConstrained0(unittest.TestCase):
     """
-    test on problem A
+    test class Constrained0
     """
-
-    problem = AntennaPlacement
-
-    def generateProblem(self):
-        P = [np.array([0, 0]), np.array([1, 0])]
-        w = np.array([1, 0.5])
-        problem = self.problem(P, w)
-        return problem
+    problem = Constrained0
 
     def testConstructor(self):
-        self.generateProblem()
+        n = 4
+        p = self.problem(4)
 
-    def testValue(self):
-        problem = self.generateProblem()
-        x = np.ones(2)
-        value = problem.evaluate(x)[0][0]
-        self.assertAlmostEqual(value, - 1 * math.exp(- 2) - .5 * math.exp(-1))
+    def testValue1(self):
+        n = 4
+        problem = self.problem(4)
+        phi, J = problem.evaluate(np.zeros(4))
+        self.assertTrue(np.allclose(phi, np.zeros(n + 1)))
 
     def testJacobian(self):
-        problem = self.generateProblem()
-        x = np.array([-1, .5])
-        flag, _, _ = check_mathematical_program(problem.evaluate, x, 1e-5)
+        n = 4
+        problem = self.problem(n)
+        x = np.array([1, -1, 0.5, .6])
+        flag, _, _ = check_mathematical_program(
+            problem.evaluate, x, 1e-5, True)
         self.assertTrue(flag)
 
-    def testHessian(self):
-        problem = self.generateProblem()
-        x = np.array([-1, .1])
+    def testHessain(self):
+        n = 4
+        problem = self.problem(n)
+        x = np.array([.8, -.5, .1, 1.5])
+
         H = problem.getFHessian(x)
 
+        # we know that in this implementation, the first term is the
+        # OT.f cost
         def f(x):
             return problem.evaluate(x)[0][0]
 
@@ -52,12 +50,16 @@ class testProblem(unittest.TestCase):
         flag = np.allclose(H, Hdiff, 10 * tol, 10 * tol)
         self.assertTrue(flag)
 
-
 # usage:
 # print results in terminal
 # python3 test.py
 # store results in file
 # python3 test.py out.log
+
+# cp the file and run from
+# ROOT/optimization_algorithms
+# ROOT/tmp/test <--- copy and run HERE
+
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:

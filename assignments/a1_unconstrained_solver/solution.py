@@ -2,8 +2,9 @@ import numpy as np
 import sys
 
 sys.path.append("..")
-from optimization_algorithms.interface.nlp_solver import  NLPSolver
+from optimization_algorithms.interface.nlp_solver import NLPSolver
 from optimization_algorithms.interface.objective_type import OT
+
 
 class SolverUnconstrained(NLPSolver):
 
@@ -13,11 +14,10 @@ class SolverUnconstrained(NLPSolver):
         ----
         NLPSolver.__init__
         """
-        
+
         # in case you want to initialize some class members or so...
 
-
-    def solve(self) :
+    def solve(self):
         """
 
         See Also:
@@ -25,7 +25,7 @@ class SolverUnconstrained(NLPSolver):
         NLPSolver.solve
 
         """
-        
+
         # write your code here
 
         # use the following to get an initialization:
@@ -37,10 +37,10 @@ class SolverUnconstrained(NLPSolver):
 
         # use the following to query the problem:
         phi, J = self.problem.evaluate(x)
-        H = self.getFHessain(x) # if necessary
+        H = self.getFHessain(x)  # if necessary
         # phi is a vector (1D np.array); J is a Jacobian matrix (2D np.array).
 
         # now code some loop that iteratively queries the problem and updates x til convergenc....
 
         # finally:
-        return x 
+        return x

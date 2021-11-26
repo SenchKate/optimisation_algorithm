@@ -1,28 +1,27 @@
 import sys
 import numpy as np
+import math
 
 from ..interface.mathematical_program import MathematicalProgram
 from ..interface.objective_type import OT
 
 
-class Rosenbrock(MathematicalProgram):
-
+class Constrained0(MathematicalProgram):
     """
-    x = [ x_1, x_2  ] in R^2
-    f =  ( a - x ) ** 2 + b * ( y - x^2 ) ^ 2
+    x = [ x_1, x_2, ... , x_n ] in R^n
+    f =  SUM( x_i )
     sos = []
     eq = []
-    ineq = []
-    bounds = ( [ -inf , -inf], [ inf, inf] )
+    ineq = [ x_i >= 0 ] ( implemented as  -x_i <= 0 )
     """
 
-    def __init__(self, a, b):
+    def __init__(self, n):
         """
-        a: float
-        b: float
+        Arguments:
+        ----
+        n: interger
         """
-        self.a = a
-        self.b = b
+        self.n = n
         super().__init__()
 
     def evaluate(self, x):
@@ -31,10 +30,14 @@ class Rosenbrock(MathematicalProgram):
         ------
         MathematicalProgram.evaluate
         """
-        f = (self.a - x[0]) ** 2 + self.b * (x[1] - x[0] ** 2) ** 2
-        phi = np.array([-2 * (self.a - x[0]) + 2 * self.b * (x[1] -
-                                                             x[0]**2) * (-2 * x[0]), self.b * 2 * (x[1] - x[0]**2)])
-        return np.array([f]), phi.reshape(1, -1)
+        n = self.getDimension()  # we can also access self.n directly
+        phi = np.zeros(n + 1)
+        phi[0] = np.sum(x)
+        phi[1:] = -x
+        J = np.zeros((n + 1, n))
+        J[0] = np.ones(n)
+        J[1:, :] = -np.identity(n)
+        return phi, J
 
     def getDimension(self):
         """
@@ -42,7 +45,7 @@ class Rosenbrock(MathematicalProgram):
         ------
         MathematicalProgram.getDimension
         """
-        return 2
+        return self.n
 
     def getFeatureTypes(self):
         """
@@ -50,7 +53,7 @@ class Rosenbrock(MathematicalProgram):
         ------
         MathematicalProgram.getFeatureTypes
         """
-        return [OT.f]
+        return [OT.f] + [OT.ineq] * self.getDimension()
 
     def getInitializationSample(self):
         """
@@ -58,23 +61,16 @@ class Rosenbrock(MathematicalProgram):
         ------
         MathematicalProgram.getInitializationSample
         """
-        return np.array([1, 1])
+        return np.ones(self.getDimension())
 
     def getFHessian(self, x):
         """
-        Ref: https://www.wolframalpha.com/input/?i=hessian+of+++%28+a+-+x+%29+%5E+2+%2B+b+%28+y+-+x%5E2+%29+%5E+2
-
         See Also
         ------
         MathematicalProgram.getFHessian
         """
         n = self.getDimension()
-        a = self.a
-        b = self.b
-        y = x[1]
-        x = x[0]
-        return np.array([[- 4 * b * (y - x**2) + 8 * b * x ** 2 + 2, -4 * b * x],
-                         [-4 * b * x, 2 * b]])
+        return np.zeros((n, n))
 
     def report(self, verbose):
         """
@@ -82,5 +78,5 @@ class Rosenbrock(MathematicalProgram):
         ------
         MathematicalProgram.report
         """
-        strOut = "Rosenbrock Function"
+        strOut = "Example of Constrained Problem"
         return strOut
