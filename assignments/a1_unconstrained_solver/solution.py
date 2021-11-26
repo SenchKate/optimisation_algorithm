@@ -37,7 +37,7 @@ class SolverUnconstrained(NLPSolver):
 
         # use the following to query the problem:
         phi, J = self.problem.evaluate(x)
-        H = self.getFHessain(x)  # if necessary
+        H = self.problem.getFHessain(x)  # if necessary
         # phi is a vector (1D np.array); J is a Jacobian matrix (2D np.array).
 
         # now code some loop that iteratively queries the problem and updates x til convergenc....
