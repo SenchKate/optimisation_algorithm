@@ -12,7 +12,7 @@ from solution import RobotTool
 
 class testProblem(unittest.TestCase):
     """
-    test on problem A
+    test RobotTool
     """
 
     problem = RobotTool

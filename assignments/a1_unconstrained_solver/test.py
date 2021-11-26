@@ -16,9 +16,9 @@ from optimization_algorithms.mathematical_programs.hole import Hole
 from solution import SolverUnconstrained
 
 
-class testSolver0(unittest.TestCase):
+class testSolver(unittest.TestCase):
     """
-    test on problem A
+    test SolverUnconstrained
     """
     Solver = SolverUnconstrained
 

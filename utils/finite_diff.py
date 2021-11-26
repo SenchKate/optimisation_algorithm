@@ -58,20 +58,6 @@ def check_mathematical_program(fun, x, eps, verbose=False):
     J_num = np.zeros_like(J)
     for i in range(n):
         ei = np.zeros(n)
-<<<<<<< HEAD
-        ei[i] = eps 
-        J_num[:,i] = (fun( x +  ei)[0] - fun( x - ei)[0]) / ( 2 * eps)
-    if verbose:
-        print( "J\n{}".format( J) ) 
-        print( "J_num\n{}".format( J_num) ) 
-        print( "J - J_num \n{}".format( J - J_num) ) 
-    return np.allclose( J , J_num , atol=10*eps) , J , J_num
-
-
-
-
-
-=======
         ei[i] = eps
         J_num[:, i] = (fun(x + ei)[0] - fun(x - ei)[0]) / (2 * eps)
     if verbose:
@@ -79,4 +65,3 @@ def check_mathematical_program(fun, x, eps, verbose=False):
         print("J_num\n{}".format(J_num))
         print("J - J_num \n{}".format(J - J_num))
     return np.allclose(J, J_num, atol=10 * eps), J, J_num
->>>>>>> oap/public

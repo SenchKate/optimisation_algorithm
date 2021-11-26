@@ -13,7 +13,7 @@ from solution import AntennaPlacement
 
 class testProblem(unittest.TestCase):
     """
-    test on problem A
+    test AntennaPlacement
     """
 
     problem = AntennaPlacement
